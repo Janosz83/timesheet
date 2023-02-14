@@ -17,29 +17,27 @@ let timesheet = document.querySelector(".timesheet");
 
 for (const key in months) {
   //console.log("xxxxx", key, months[key].days);
-  let x = 0;
+
   let month = document.createElement("div");
   month.innerHTML = key;
-  month.classList.add("cardx");
-  month.classList.add("p-5");
-  month.classList.add("d-inline-flex");
-  let monthBody = document.createElement("div");
-  monthBody.classList.add("text-primary");
-  monthBody.classList.add("card-body");
-  month.appendChild(monthBody);
+  month.className = "p-5 ";
+
   timesheet.appendChild(month);
+  let x = 0;
   while (x < months[key].days) {
     let day = document.createElement("div");
-    day.classList.add("d-inline");
-    day.classList.add("text-info");
-    day.classList.add("p-1");
-    day.classList.add("border");
+    day.className = "border p-1";
     day.innerHTML = x + 1;
-    monthBody.appendChild(day);
+    month.appendChild(day);
     let chooser = document.createElement("input");
     chooser.type = "number";
+    chooser.id = x + 1;
     chooser.classList.add("m-2");
     chooser.style.width = "40px";
+    chooser.addEventListener("change", function (ev) {
+      console.log(key, ev.target.id);
+      localStorage.setItem(key, JSON.stringify({ id: ev.target.id }));
+    });
     day.appendChild(chooser);
     x++;
   }
