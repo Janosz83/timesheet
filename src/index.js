@@ -35,8 +35,13 @@ for (const key in months) {
     chooser.classList.add("m-2");
     chooser.style.width = "40px";
     chooser.addEventListener("change", function (ev) {
-      console.log(key, ev.target.id);
-      localStorage.setItem(key, JSON.stringify({ id: ev.target.id }));
+      console.log(key, ev.target.id, ev.target.value);
+      months[key].state = {
+        ...months[key].state,
+        [ev.target.id]: ev.target.value,
+      };
+      console.log(months);
+      localStorage.setItem("timesheet", JSON.stringify(months));
     });
     day.appendChild(chooser);
     x++;
