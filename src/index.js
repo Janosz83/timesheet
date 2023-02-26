@@ -11,48 +11,51 @@ let monthsInit = {
   april: {
     days: 30,
   },
+  may: {
+    days: 31,
+  },
 };
 
-let timesheet = document.querySelector(".timesheet");
+let timesheetEl = document.querySelector(".timesheet");
 
 let months = JSON.parse(localStorage.getItem("timesheet")) || monthsInit;
 
-for (const key in months) {
+for (const monthName in months) {
   //console.log("xxxxx", key, months[key].days);
 
-  let month = document.createElement("div");
-  month.innerHTML = key;
-  month.className = "p-5 ";
+  let monthEl = document.createElement("div");
+  monthEl.innerHTML = monthName;
+  monthEl.className = "p-1";
 
-  timesheet.appendChild(month);
-  let x = 0;
-  while (x < months[key].days) {
-    let day = document.createElement("div");
-    day.className = "border p-1";
-    day.innerHTML = x + 1;
-    month.appendChild(day);
+  timesheetEl.appendChild(monthEl);
+  let day = 1;
+  while (day < months[monthName].days) {
+    let dayEl = document.createElement("div");
+    dayEl.className = "border p-1";
+    dayEl.innerHTML = day;
+    monthEl.appendChild(dayEl);
     let chooser = document.createElement("input");
     chooser.type = "number";
-    chooser.id = x + 1;
-    chooser.classList.add("m-2");
+    chooser.id = day;
+    chooser.classList.add("m-1");
     chooser.style.width = "40px";
 
-    const state = months[key].state;
+    const state = months[monthName].state;
 
-    if (state && x in state) {
-      chooser.value = state[x];
+    if (state && day in state) {
+      chooser.value = state[day];
     }
 
     chooser.addEventListener("change", function (ev) {
-      console.log(key, ev.target.id, ev.target.value);
-      months[key].state = {
-        ...months[key].state,
+      console.log(monthName, ev.target.id, ev.target.value);
+      months[monthName].state = {
+        ...months[monthName].state,
         [ev.target.id]: ev.target.value,
       };
       console.log(months);
       localStorage.setItem("timesheet", JSON.stringify(months));
     });
-    day.appendChild(chooser);
-    x++;
+    dayEl.appendChild(chooser);
+    day++;
   }
 }
