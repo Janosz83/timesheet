@@ -1,4 +1,4 @@
-let months = {
+let monthsInit = {
   january: {
     days: 31,
   },
@@ -14,6 +14,8 @@ let months = {
 };
 
 let timesheet = document.querySelector(".timesheet");
+
+let months = JSON.parse(localStorage.getItem("timesheet")) || monthsInit;
 
 for (const key in months) {
   //console.log("xxxxx", key, months[key].days);
@@ -34,6 +36,13 @@ for (const key in months) {
     chooser.id = x + 1;
     chooser.classList.add("m-2");
     chooser.style.width = "40px";
+
+    const state = months[key].state;
+
+    if (state && x in state) {
+      chooser.value = state[x];
+    }
+
     chooser.addEventListener("change", function (ev) {
       console.log(key, ev.target.id, ev.target.value);
       months[key].state = {
