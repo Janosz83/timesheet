@@ -14,6 +14,27 @@ let monthsInit = {
   may: {
     days: 31,
   },
+  june: {
+    days: 30,
+  },
+  july: {
+    days: 31,
+  },
+  august: {
+    days: 31,
+  },
+  september: {
+    days: 30,
+  },
+  october: {
+    days: 31,
+  },
+  november: {
+    days: 30,
+  },
+  december: {
+    days: 31,
+  },
 };
 
 let timesheetEl = document.querySelector(".timesheet");
@@ -29,24 +50,24 @@ for (const monthName in months) {
 
   timesheetEl.appendChild(monthEl);
   let day = 1;
-  while (day < months[monthName].days) {
+  while (day <= months[monthName].days) {
     let dayEl = document.createElement("div");
     dayEl.className = "border p-1";
     dayEl.innerHTML = day;
     monthEl.appendChild(dayEl);
-    let chooser = document.createElement("input");
-    chooser.type = "number";
-    chooser.id = day;
-    chooser.classList.add("m-1");
-    chooser.style.width = "40px";
+    let chooserEl = document.createElement("input");
+    chooserEl.type = "number";
+    chooserEl.id = day;
+    chooserEl.classList.add("m-1");
+    chooserEl.style.width = "40px";
 
     const state = months[monthName].state;
 
     if (state && day in state) {
-      chooser.value = state[day];
+      chooserEl.value = state[day];
     }
 
-    chooser.addEventListener("change", function (ev) {
+    chooserEl.addEventListener("change", function (ev) {
       console.log(monthName, ev.target.id, ev.target.value);
       months[monthName].state = {
         ...months[monthName].state,
@@ -55,7 +76,7 @@ for (const monthName in months) {
       console.log(months);
       localStorage.setItem("timesheet", JSON.stringify(months));
     });
-    dayEl.appendChild(chooser);
+    dayEl.appendChild(chooserEl);
     day++;
   }
 }
